@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { TypeFilter } from '../App';
 
 interface Props {
   setFilter: (filter: string) => void;
@@ -23,53 +24,25 @@ export const TodoFooter: React.FC<Props> = ({
       <span className="todo-count" data-cy="TodosCounter">
         {listOfActiveTodos} items left
       </span>
-
-      {/* Active link should have the 'selected' class */}
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          className={classNames('filter__link', {
-            selected: filter === 'All',
-          })}
-          data-cy="FilterLinkAll"
-          onClick={e => {
-            e.preventDefault();
-            setFilter('All');
-          }}
-        >
-          All
-        </a>
-
-        <a
-          href="#/active"
-          className={classNames('filter__link', {
-            selected: filter === 'Active',
-          })}
-          data-cy="FilterLinkActive"
-          onClick={e => {
-            e.preventDefault();
-            setFilter('Active');
-          }}
-        >
-          Active
-        </a>
-
-        <a
-          href="#/completed"
-          className={classNames('filter__link', {
-            selected: filter === 'Completed',
-          })}
-          data-cy="FilterLinkCompleted"
-          onClick={e => {
-            e.preventDefault();
-            setFilter('Completed');
-          }}
-        >
-          Completed
-        </a>
+        {Object.values(TypeFilter).map(filteredVaue => (
+          <a
+            key={filteredVaue}
+            href={`#/${filteredVaue.toLowerCase()}`}
+            className={classNames('filter__link', {
+              selected: filter === filteredVaue,
+            })}
+            data-cy={`FilterLink${filteredVaue}`}
+            onClick={e => {
+              e.preventDefault();
+              setFilter(filteredVaue);
+            }}
+          >
+            {filteredVaue}
+          </a>
+        ))}
       </nav>
 
-      {/* this button should be disabled if there are no completed todos */}
       <button
         disabled={!hasActiveTodo}
         type="button"

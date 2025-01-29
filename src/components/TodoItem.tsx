@@ -16,13 +16,13 @@ export const TodoItem: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id } = todo;
+  const { id, completed, title } = todo;
 
   return (
     <div
       data-cy="Todo"
       className={classNames('todo', {
-        completed: todo.completed,
+        completed: completed,
       })}
     >
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -31,11 +31,11 @@ export const TodoItem: React.FC<Props> = ({
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
+          checked={completed}
         />
       </label>
       <span data-cy="TodoTitle" className="todo__title">
-        {todo.title}
+        {title}
       </span>
       {/* Remove button appears only on hover */}
       <button
@@ -44,7 +44,7 @@ export const TodoItem: React.FC<Props> = ({
         data-cy="TodoDelete"
         onClick={() => {
           setIsLoading(true);
-          deletePost(todo.id);
+          deletePost(id);
         }}
       >
         ×

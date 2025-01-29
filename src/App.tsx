@@ -80,23 +80,10 @@ export const App: React.FC = () => {
     });
   };
 
-  async function addPost(newTodo: Omit<Todo, 'id'>): Promise<void> {
+  const addPost = async (newTodo: Omit<Todo, 'id'>): Promise<void> => {
     const todo = { ...newTodo, id: 0 };
 
     setTempTodo(todo);
-
-    // addTodo(newTodo)
-    //   .then(addedTodo => {
-    //     setIsLoading(true);
-    //     setTodosList(currentTodos => [...currentTodos, addedTodo]);
-    //   })
-    //   .catch(() => {
-    //     setErrorMessage('Unable to add a todo');
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //     setTempTodo(null);
-    //   });
 
     try {
       const addedTodo = await addTodo(newTodo);
@@ -106,7 +93,7 @@ export const App: React.FC = () => {
       setIsLoading(false);
       setTempTodo(null);
     }
-  }
+  };
 
   const filteredList = () => {
     switch (filter) {
@@ -118,10 +105,6 @@ export const App: React.FC = () => {
         return todosList;
     }
   };
-
-  // if (!USER_ID) {
-  //   return <UserWarning />;
-  // }
 
   return (
     <div className="todoapp">
@@ -142,10 +125,10 @@ export const App: React.FC = () => {
           loadingTodo={loadingTodo}
         />
 
-        {tempTodo && <TempTodo todo={tempTodo} />}
+        {tempTodo && <TempTodo todo={tempTodo} loadingTodo={loadingTodo} />}
 
         {/* Hide the footer if there are no todos */}
-        {todosList.length !== 0 && (
+        {!!todosList.length && (
           <TodoFooter
             setFilter={setFilter}
             filter={filter}
